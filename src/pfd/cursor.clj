@@ -1,4 +1,5 @@
-(ns pfd.cursor)
+(ns pfd.cursor
+  (:require [pfd.step :as s]))
 
 (declare nav-cursor
          get-next-step-for-directive
@@ -8,7 +9,7 @@
 
   (end? [this])
   (ended-successfully? [this])
-  (current-step [this])
+  (step [this])
 
   (ok [this])
   (y [this])
@@ -18,9 +19,9 @@
 
   PfdNavigator
 
-  (current-step
-    [{:keys [curstep]}]
-    curstep)
+  (step
+    [{:keys [curstep vasids]}]
+    (s/pfdstep curstep (contains? vasids (:sid curstep))))
 
   (end?
     [{:keys [curstep]}]
