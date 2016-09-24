@@ -1,5 +1,6 @@
 (ns user
-  (:require [pfd.cursor :as c]))
+  (:require [pfd.cursor :as c])
+  (:require [pfd.step :as s]))
 
 (defn sample-pfd
   []
@@ -40,10 +41,9 @@
     (if (c/ended-successfully? cursor)
       (str "Success! " (:eboundary pfd))
       "Failure :-(")
-    (let [step (c/current-step cursor)
-          text (or (:directive step)
-                   (:predicate step))]
-      (if (va-step? cursor)
+    (let [step (c/step cursor)
+          text (s/text step)]
+      (if (s/value-add? step)
         text
         (str "(NVA) " text)))))
 
