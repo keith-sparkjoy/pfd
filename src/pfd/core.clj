@@ -6,6 +6,11 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defn beginning-step
+  "Look up the first step for this PFD"
+  [pfd]
+  ((:steps pfd) (:beginning-sid pfd)))
+
 (defn map-steps
   "Replaces a seq of steps with a map making lookup easier"
   [{:keys [steps] :as pfd}]
@@ -13,11 +18,6 @@
              [:steps]
              (fn [steps]
                (zipmap (map :sid steps) steps))))
-
-(defn beginning-step
-  "Look up the first step for this PFD"
-  [pfd]
-  ((:steps pfd) (:beginning-sid pfd)))
 
 (defn add-vasids
   "All value-added steps for a process can be found by traversing steps from the beginning through all directives and consequents. This function computes them ahead of time and adds them to the PFD."
@@ -38,6 +38,11 @@
       map-steps
       add-vasids))
 
+(defn va-sid?
+  "Does this SID identify a value-added step?"
+  [pfd sid]
+  (contains? (:vasids pfd) sid))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; steps
@@ -51,11 +56,6 @@
 (defn is-predicate?
   [step]
   (contains? step :predicate))
-
-(defn va-sid?
-  "Does this SID identify a value-added step?"
-  [pfd sid]
-  (contains? (:vasids pfd) sid))
 
 (defn get-next-sid-for-predicate
   "Given an answer, returns a function that will find the next step from a given predicate step"
