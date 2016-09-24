@@ -3,7 +3,7 @@
 
 (defn make-sample-pfd
   []
-  (let [pfd {:name "OpenFrontDoor"
+  (let [pfd {:name "open-front-door"
              :aim "Open front door"
              :bboundary "You are standing outside the door."
              :eboundary "The door is open and you are standing inside."
