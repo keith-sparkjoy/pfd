@@ -17,7 +17,6 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (defrecord PfdDirective [m value-add]
 
   PfdStep
@@ -29,8 +28,6 @@
   (text
     [{:keys [m]}]
     (:directive m)))
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;

@@ -29,12 +29,6 @@
             :next 5}]
    :beginning-sid 5})
 
-(def cursor (atom nil))
-
-(defn va-step?
-  [{:keys [vasids curstep]}]
-  (contains? vasids (:sid curstep)))
-
 (defn text-for-current-step
   [{:keys [pfd curstep] :as cursor}]
   (if (c/end? cursor)
@@ -45,13 +39,15 @@
           text (s/text step)]
       (if (s/value-add? step)
         text
-        (str "(NVA) " text)))))
+        (str "NVA: " text)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Use these functions to nav the sample
+;; Use these functions to nav a sample PFD via a cursor
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def cursor (atom nil))
 
 (defn begin []
   (reset! cursor (c/pfdcursor (sample-pfd)))
