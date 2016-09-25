@@ -8,8 +8,9 @@
 
 (defprotocol PfdStep
 
-  (value-add? [this])
-  (text [this]))
+  (value-add? [this] "Is this a value-added step?")
+
+  (text [this] "Text for this step (either directive or predicate)"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -43,7 +44,7 @@
     [{:keys [value-add]}]
     value-add)
 
-    (text
+  (text
     [{:keys [m]}]
     (:predicate m)))
 
@@ -54,6 +55,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn pfdstep
+  "Constructs a concrete implementation of PfdStep given a raw step from a PFD and caches the results of analysis to determine if this step was in the value-add line (typically represented as the main vertical flow) or non-value-add (typically represented horizontally - off to the milky way). Non-value-add is often abbreviated NVA."
   [m value-add]
   (let [map-ctor (cond (contains? m :directive) map->PfdDirective
                        (contains? m :predicate) map->PfdPredicate)]
